@@ -6,15 +6,15 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
     <div>
       <span class="eyebrow">COMMAND CENTER</span>
       <h1>Engineering operations</h1>
-      <p>Projects that need attention, waiting dependencies, and the next action—without turning every project into a checklist.</p>
+      <p>Projects that need attention, waiting dependencies, and the next actionâ€”without turning every project into a checklist.</p>
     </div>
     <div style="display:flex;gap:10px;align-items:center"><a class="secondary-action" href="/engineering/proposals">Proposal Workspace</a><button id="new-project-button" class="primary-action" type="button">New Project</button></div>
   </section>
 
   <section class="metric-grid" aria-label="Project summary">
-    <article class="metric-card"><span>Active projects</span><strong id="metric-projects">—</strong><small>Persistent Engineering Jobs</small></article>
-    <article class="metric-card"><span>Need attention</span><strong id="metric-attention">—</strong><small>Attention or approval required</small></article>
-    <article class="metric-card"><span>Waiting</span><strong id="metric-waiting">—</strong><small>External dependencies</small></article>
+    <article class="metric-card"><span>Active projects</span><strong id="metric-projects">â€”</strong><small>Persistent Engineering Jobs</small></article>
+    <article class="metric-card"><span>Need attention</span><strong id="metric-attention">â€”</strong><small>Attention or approval required</small></article>
+    <article class="metric-card"><span>Waiting</span><strong id="metric-waiting">â€”</strong><small>External dependencies</small></article>
     <article class="metric-card"><span>System</span><strong id="metric-system">Connecting</strong><small>PostgreSQL-backed API</small></article>
   </section>
 
@@ -29,7 +29,7 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
         </select>
       </div>
       <div id="project-list" class="project-list">
-        <div class="workspace-empty"><strong>Loading Engineering Jobs…</strong><span>Connecting to the MIDRA Engineering API.</span></div>
+        <div class="workspace-empty"><strong>Loading Engineering Jobsâ€¦</strong><span>Connecting to the MIDRA Engineering API.</span></div>
       </div>
     </div>
 
@@ -52,7 +52,7 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
           <h2>Create project</h2>
           <p>Create the canonical Engineering Job first. Additional systems can be connected as the project develops.</p>
         </div>
-        <button id="close-project-dialog" class="dialog-close" type="button" aria-label="Close">×</button>
+        <button id="close-project-dialog" class="dialog-close" type="button" aria-label="Close">Ã—</button>
       </div>
 
       <div class="project-form-grid">
@@ -117,6 +117,7 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
     const localApiDefault=["localhost","127.0.0.1"].includes(window.location.hostname)?"http://localhost:8000":window.location.origin;
     const API=(configuredApi||localApiDefault).replace(/\/$/,"");
     const local = ["localhost","127.0.0.1"].includes(window.location.hostname);
+    const engineeringEnabled = local || Boolean(configuredApi);
     const projectList = document.querySelector("#project-list");
     const notice = document.querySelector("#workspace-notice");
     const filter = document.querySelector("#state-filter");
@@ -145,7 +146,7 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
 
     newProjectForm.addEventListener("submit",async(event)=>{
       event.preventDefault();
-      newProjectMessage.textContent="Creating Engineering Job…";
+      newProjectMessage.textContent="Creating Engineering Jobâ€¦";
       createProjectButton.disabled=true;
       try{
         const value=(id)=>document.querySelector(id).value.trim();
@@ -174,7 +175,7 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
     });
 
 
-    function text(value, fallback="—") {
+    function text(value, fallback="â€”") {
       return value === null || value === undefined || value === "" ? fallback : String(value);
     }
 
@@ -191,19 +192,19 @@ import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
         <div class="project-identity">
           <span class="job-number">${escapeHtml(card.job_number)}</span>
           <strong>${escapeHtml(card.project_name)}</strong>
-          <small>${escapeHtml(card.project_type)} · ${escapeHtml(card.project_state)}</small>
+          <small>${escapeHtml(card.project_type)} Â· ${escapeHtml(card.project_state)}</small>
         </div>
         <div class="attention attention-${escapeHtml((card.attention||"info").toLowerCase())}">${escapeHtml(card.attention)}</div>
         <div class="next-action">
           <span>${escapeHtml(action.type?.replaceAll("_"," ") || "NO IMMEDIATE ACTION")}</span>
           <strong>${escapeHtml(action.message || "No immediate action required.")}</strong>
         </div>
-        <div class="row-arrow" aria-hidden="true">→</div>
+        <div class="row-arrow" aria-hidden="true">â†’</div>
       </a>`;
     }
 
     async function load() {
-      if (!local) {
+      if (!engineeringEnabled) {
         projectList.innerHTML=`<div class="workspace-empty"><strong>Internal workplace is not enabled on the public site.</strong><span>Authentication will be added before production access is enabled.</span></div>`;
         document.querySelector("#metric-system").textContent="Protected";
         document.querySelector("#api-status").textContent="Public access disabled";
