@@ -1,0 +1,37 @@
+---
+import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
+---
+<EngineeringLayout title="Sign In | MIDRA Engineering">
+  <section class="login-shell">
+    <form id="engineering-login" class="login-card">
+      <span class="eyebrow">SECURE WORKPLACE</span>
+      <h1>Sign in to MIDRA Engineering</h1>
+      <p>Project information, client work, reviews, and professional actions are restricted to authorized users.</p>
+      <label>Email<input id="email" type="email" autocomplete="username" required /></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" required /></label>
+      <button class="primary-action" type="submit">Sign In</button>
+      <div id="login-message" class="login-message" aria-live="polite"></div>
+    </form>
+  </section>
+  <script>
+    const API="http://localhost:8000";
+    const form=document.querySelector("#engineering-login");
+    const message=document.querySelector("#login-message");
+    fetch(`${API}/engineering/auth/me`,{credentials:"include"})
+      .then(r=>{if(r.ok) window.location.replace("/engineering")}).catch(()=>{});
+    form.addEventListener("submit",async(e)=>{
+      e.preventDefault(); message.textContent="Signing inâ€¦";
+      try{
+        const r=await fetch(`${API}/engineering/auth/login`,{
+          method:"POST",credentials:"include",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({email:document.querySelector("#email").value,password:document.querySelector("#password").value})
+        });
+        const body=await r.json().catch(()=>({}));
+        if(!r.ok) throw new Error(body.detail || "Sign in failed.");
+        window.location.replace("/engineering");
+      }catch(err){message.textContent=err.message}
+    });
+  </script>
+</EngineeringLayout>
+

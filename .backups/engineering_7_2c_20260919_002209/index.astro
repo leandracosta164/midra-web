@@ -1,0 +1,117 @@
+﻿---
+import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
+---
+<EngineeringLayout title="Command Center | MIDRA Engineering">
+  <section class="workspace-heading">
+    <div>
+      <span class="eyebrow">COMMAND CENTER</span>
+      <h1>Engineering operations</h1>
+      <p>Projects that need attention, waiting dependencies, and the next actionâ€”without turning every project into a checklist.</p>
+    </div>
+    <button class="primary-action" type="button" disabled title="Job creation UI comes after the authenticated workplace foundation">New Project</button>
+  </section>
+
+  <section class="metric-grid" aria-label="Project summary">
+    <article class="metric-card"><span>Active projects</span><strong id="metric-projects">â€”</strong><small>Persistent Engineering Jobs</small></article>
+    <article class="metric-card"><span>Need attention</span><strong id="metric-attention">â€”</strong><small>Attention or approval required</small></article>
+    <article class="metric-card"><span>Waiting</span><strong id="metric-waiting">â€”</strong><small>External dependencies</small></article>
+    <article class="metric-card"><span>System</span><strong id="metric-system">Connecting</strong><small>PostgreSQL-backed API</small></article>
+  </section>
+
+  <section class="workspace-grid">
+    <div class="workspace-panel workspace-panel-main" id="projects">
+      <div class="panel-heading">
+        <div><span class="panel-label">PROJECTS</span><h2>What needs your attention</h2></div>
+        <select id="state-filter" aria-label="Filter projects by state">
+          <option value="">All states</option>
+          <option>ACTIVE</option><option>WAITING</option><option>ON_HOLD</option>
+          <option>READY_FOR_REVIEW</option><option>CLOSEOUT</option><option>CLOSED</option>
+        </select>
+      </div>
+      <div id="project-list" class="project-list">
+        <div class="workspace-empty"><strong>Loading Engineering Jobsâ€¦</strong><span>Connecting to the MIDRA Engineering API.</span></div>
+      </div>
+    </div>
+
+    <aside class="workspace-panel">
+      <div class="panel-heading"><div><span class="panel-label">WORKFLOW</span><h2>Operating rules</h2></div></div>
+      <div class="rule-list">
+        <div><b>01</b><p><strong>MIDRA organizes the work.</strong><span>Projects stay concise when the scope is small.</span></p></div>
+        <div><b>02</b><p><strong>Dependencies stay visible.</strong><span>Waiting on a client or agency does not create fake work for you.</span></p></div>
+        <div><b>03</b><p><strong>You retain professional control.</strong><span>Issue, approval, and completion decisions remain explicit.</span></p></div>
+      </div>
+    </aside>
+  </section>
+
+  <div id="workspace-notice" class="workspace-notice" hidden></div>
+
+  <script>
+    const API = "http://127.0.0.1:8000";
+    const local = ["localhost","127.0.0.1"].includes(window.location.hostname);
+    const projectList = document.querySelector("#project-list");
+    const notice = document.querySelector("#workspace-notice");
+    const filter = document.querySelector("#state-filter");
+
+    function text(value, fallback="â€”") {
+      return value === null || value === undefined || value === "" ? fallback : String(value);
+    }
+
+    function escapeHtml(value) {
+      const div=document.createElement("div");
+      div.textContent=text(value,"");
+      return div.innerHTML;
+    }
+
+    function renderCard(card) {
+      const action=card.next_action || {};
+      const href=`/engineering/project?job=${encodeURIComponent(card.job_number)}`;
+      return `<a class="project-row" href="${href}">
+        <div class="project-identity">
+          <span class="job-number">${escapeHtml(card.job_number)}</span>
+          <strong>${escapeHtml(card.project_name)}</strong>
+          <small>${escapeHtml(card.project_type)} Â· ${escapeHtml(card.project_state)}</small>
+        </div>
+        <div class="attention attention-${escapeHtml((card.attention||"info").toLowerCase())}">${escapeHtml(card.attention)}</div>
+        <div class="next-action">
+          <span>${escapeHtml(action.type?.replaceAll("_"," ") || "NO IMMEDIATE ACTION")}</span>
+          <strong>${escapeHtml(action.message || "No immediate action required.")}</strong>
+        </div>
+        <div class="row-arrow" aria-hidden="true">â†’</div>
+      </a>`;
+    }
+
+    async function load() {
+      if (!local) {
+        projectList.innerHTML=`<div class="workspace-empty"><strong>Internal workplace is not enabled on the public site.</strong><span>Authentication will be added before production access is enabled.</span></div>`;
+        document.querySelector("#metric-system").textContent="Protected";
+        document.querySelector("#api-status").textContent="Public access disabled";
+        return;
+      }
+      const state=filter.value;
+      const url=`${API}/engineering/command-center${state ? `?state=${encodeURIComponent(state)}` : ""}`;
+      try {
+        const response=await fetch(url,{credentials:"include"});
+        if(response.status===401){window.location.replace("/engineering/login");return;} if(response.status===401){window.location.replace("/engineering/login");return;} if(!response.ok) throw new Error(`API ${response.status}`);
+        const data=await response.json();
+        document.querySelector("#metric-projects").textContent=data.project_count;
+        document.querySelector("#metric-attention").textContent=data.needs_attention;
+        document.querySelector("#metric-waiting").textContent=(data.cards||[]).filter(c=>c.next_action?.type==="WAITING").length;
+        document.querySelector("#metric-system").textContent="Online";
+        document.querySelector("#api-status").textContent="API connected";
+        projectList.innerHTML=(data.cards||[]).length
+          ? data.cards.map(renderCard).join("")
+          : `<div class="workspace-empty"><strong>No Engineering Jobs in this view.</strong><span>The workspace is ready for persistent project data.</span></div>`;
+      } catch(error) {
+        document.querySelector("#metric-system").textContent="Offline";
+        document.querySelector("#api-status").textContent="API unavailable";
+        projectList.innerHTML=`<div class="workspace-empty"><strong>Engineering API is not running.</strong><span>Start the MIDRA API, then refresh this page.</span></div>`;
+        notice.hidden=false;
+        notice.textContent="The workplace shell loaded correctly, but it could not reach the local Engineering API at 127.0.0.1:8000.";
+      }
+    }
+    filter.addEventListener("change",load);
+    load();
+  </script>
+</EngineeringLayout>
+
+

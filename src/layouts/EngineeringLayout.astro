@@ -1,0 +1,119 @@
+---
+import "../styles/base/global.css";
+import "../styles/engineering/workplace.css";
+
+interface Props {
+  title?: string;
+  active?: string;
+}
+
+const {
+  title = "MIDRA Engineering Workplace",
+  active = "command-center"
+} = Astro.props;
+
+const engineeringApiBase = (import.meta.env.PUBLIC_MIDRA_ENGINEERING_API_BASE_URL?.trim() || "").replace(/\/$/, "");
+
+const nav = [
+  { id:"command-center", label:"Command Center", href:"/engineering" },
+  { id:"projects", label:"Projects", href:"/engineering#projects" },
+  { id:"clients", label:"Clients", href:"/engineering#clients", disabled:true },
+  { id:"calendar", label:"Calendar", href:"/engineering#calendar", disabled:true },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="theme-color" content="#071522" />
+  <meta name="midra-engineering-api-base" content={engineeringApiBase} />
+  <title>{title}</title>
+</head>
+<body class="engineering-app">
+  <div class="workplace-shell">
+    <aside class="workplace-sidebar">
+      <a class="workplace-brand" href="/engineering" aria-label="MIDRA Engineering Workplace">
+        <img src="/images/branding/midra-logo-white.png" alt="MIDRA Engineering" />
+        <span>WORKPLACE</span>
+      </a>
+
+      <nav class="workplace-nav" aria-label="Engineering workplace">
+        {nav.map(item => (
+          item.disabled
+            ? <span class="workplace-nav-item is-disabled"><span>{item.label}</span><small>Soon</small></span>
+            : <a class:list={["workplace-nav-item", {"is-active":active===item.id}]} href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+
+      <div class="workplace-sidebar-foot">
+        <span class="environment-dot"></span>
+        <div><strong>Engineering System</strong><small id="api-status">Checking API…</small></div>
+      </div>
+    </aside>
+
+    <div class="workplace-main">
+      <header class="workplace-topbar">
+        <div>
+          <span class="workplace-kicker">MIDRA ENGINEERING</span>
+          <strong>Professional Workspace</strong>
+        </div>
+        <div class="workplace-safety">Professional actions require your approval</div>
+      </header>
+      <main class="workplace-content"><slot /></main>
+    </div>
+  </div>
+<button id="engineering-sign-out" class="engineering-sign-out engineering-sign-out-fixed" type="button">Sign Out</button>
+</body>
+</html>
+
+<script is:inline id="engineering-sign-out-handler">
+  (() => {
+    const button = document.getElementById("engineering-sign-out");
+    if (!button) return;
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      const original = button.textContent;
+      button.textContent = "Signing out...";
+      try {
+        const configured = document.querySelector('meta[name="midra-engineering-api-base"]')?.getAttribute("content")?.trim() || "";
+        const localDefault = ["localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://localhost:8000" : window.location.origin;
+        const apiBase = (configured || localDefault).replace(/\/$/, "");
+        const response = await fetch(`${apiBase}/engineering/auth/logout`, {
+          method: "POST",
+          credentials: "include"
+        });
+        if (!response.ok) throw new Error(`Logout failed (${response.status})`);
+        window.location.replace("/engineering/login");
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = original;
+        console.error("MIDRA Engineering logout failed:", error);
+        alert("MIDRA Engineering could not sign out. Please try again.");
+      }
+    });
+  })();
+</script>
+<style is:global>
+  .engineering-sign-out {
+    appearance: none;
+    border: 1px solid #d7dee7;
+    border-radius: 999px;
+    background: #fff;
+    color: #0b2742;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+  }
+  .engineering-sign-out:hover { background: #f4f7fa; }
+  .engineering-sign-out:disabled { cursor: wait; opacity: 0.65; }
+  .engineering-sign-out-fixed {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+  }
+</style>

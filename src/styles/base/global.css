@@ -1,53 +1,634 @@
-/*
-==================================================
+﻿/*
 MIDRA Engineering Design System
 Global Stylesheet
 
-This file serves as the single entry point for
-all global styles.
-
-Author: MIDRA Engineering
-==================================================
+MIDRA Intelligence / API Visual Language
 */
 
-/* ----------------------------------------------
-   Design Tokens
----------------------------------------------- */
-
 @import "./variables.css";
-
-/* ----------------------------------------------
-   CSS Reset
----------------------------------------------- */
-
 @import "./reset.css";
-
-/* ----------------------------------------------
-   Typography
----------------------------------------------- */
-
 @import "./typography.css";
-
-/* ----------------------------------------------
-   Layout
----------------------------------------------- */
-
 @import "./layout.css";
-
-/* ----------------------------------------------
-   Buttons
----------------------------------------------- */
-
 @import "./buttons.css";
-
-/* ----------------------------------------------
-   Forms
----------------------------------------------- */
-
 @import "./forms.css";
-
-/* ----------------------------------------------
-   Utilities
----------------------------------------------- */
-
 @import "./utilities.css";
+
+
+/* ==========================================================
+   MIDRA UNIFIED VISUAL LANGUAGE
+========================================================== */
+
+:root {
+  --midra-navy: #0b1f33;
+  --midra-navy-deep: #071522;
+  --midra-blue: #1769aa;
+  --midra-blue-light: #2f80c9;
+  --midra-teal: #1aa6a6;
+
+  --midra-white: #ffffff;
+  --midra-background: #f7f9fb;
+  --midra-surface: #f3f6f9;
+  --midra-surface-alt: #eaf0f5;
+  --midra-border: #d0d5dd;
+  --midra-border-light: #e4e7ec;
+
+  --midra-text: #1d2939;
+  --midra-text-secondary: #344054;
+  --midra-text-muted: #667085;
+  --midra-text-light: #98a2b3;
+
+  --midra-success: #16805b;
+  --midra-success-light: #eaf7f3;
+
+  --midra-warning: #b7791f;
+  --midra-warning-light: #fff7e6;
+
+  --midra-danger: #b42318;
+  --midra-danger-light: #fef3f2;
+
+  --midra-info: #1769aa;
+  --midra-info-light: #eef6fc;
+
+  --midra-gold: #c69a45;
+  --midra-gold-light: #f5ead3;
+
+  --midra-shadow-xs: 0 1px 2px rgba(11, 31, 51, 0.04);
+  --midra-shadow-sm: 0 2px 6px rgba(11, 31, 51, 0.06);
+  --midra-shadow-md: 0 8px 24px rgba(11, 31, 51, 0.08);
+  --midra-shadow-lg: 0 16px 40px rgba(11, 31, 51, 0.12);
+
+  --midra-radius-sm: 4px;
+  --midra-radius-md: 8px;
+  --midra-radius-lg: 12px;
+  --midra-radius-xl: 16px;
+
+  --midra-content-width: 1200px;
+  --midra-reading-width: 760px;
+
+  --midra-transition-fast: 150ms ease;
+  --midra-transition: 220ms ease;
+}
+
+
+/* ==========================================================
+   BASE DOCUMENT
+========================================================== */
+
+html {
+  background: var(--midra-background);
+  color: var(--midra-text);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--midra-white) 0%,
+      var(--midra-background) 100%
+    );
+
+  color: var(--midra-text);
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ==========================================================
+   LINKS
+========================================================== */
+
+a {
+  color: var(--midra-blue);
+  text-decoration: none;
+
+  transition:
+    color var(--midra-transition-fast),
+    opacity var(--midra-transition-fast);
+}
+
+a:hover {
+  color: var(--midra-navy);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--midra-blue);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   IMAGES
+========================================================== */
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* ==========================================================
+   HEADINGS
+========================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--midra-navy);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2,
+h3 {
+  font-weight: 650;
+}
+
+
+/* ==========================================================
+   PARAGRAPHS
+========================================================== */
+
+p {
+  color: var(--midra-text-secondary);
+}
+
+
+/* ==========================================================
+   MIDRA SURFACES
+========================================================== */
+
+.midra-surface {
+  background: var(--midra-white);
+  border: 1px solid var(--midra-border-light);
+  border-radius: var(--midra-radius-lg);
+  box-shadow: var(--midra-shadow-sm);
+}
+
+.midra-surface-muted {
+  background: var(--midra-surface);
+  border: 1px solid var(--midra-border-light);
+  border-radius: var(--midra-radius-lg);
+}
+
+
+/* ==========================================================
+   MIDRA CARDS
+========================================================== */
+
+.midra-card {
+  background: var(--midra-white);
+  border: 1px solid var(--midra-border);
+  border-radius: var(--midra-radius-md);
+  box-shadow: var(--midra-shadow-xs);
+
+  transition:
+    border-color var(--midra-transition),
+    box-shadow var(--midra-transition),
+    transform var(--midra-transition);
+}
+
+.midra-card:hover {
+  border-color: rgba(23, 105, 170, 0.32);
+  box-shadow: var(--midra-shadow-md);
+}
+
+
+/* ==========================================================
+   MIDRA PANELS
+========================================================== */
+
+.midra-panel {
+  background: var(--midra-navy);
+  color: var(--midra-white);
+  border-radius: var(--midra-radius-lg);
+}
+
+.midra-panel p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.midra-panel h1,
+.midra-panel h2,
+.midra-panel h3,
+.midra-panel h4 {
+  color: var(--midra-white);
+}
+
+
+/* ==========================================================
+   REPORT HEADER
+========================================================== */
+
+.midra-report-header {
+  background: var(--midra-navy);
+  color: var(--midra-white);
+  border-radius: var(--midra-radius-lg);
+  padding: 2rem;
+}
+
+.midra-report-header h1,
+.midra-report-header h2,
+.midra-report-header h3 {
+  color: var(--midra-white);
+}
+
+.midra-report-header p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+
+/* ==========================================================
+   SECTION LABELS
+========================================================== */
+
+.midra-section-label {
+  color: var(--midra-blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.midra-status-success {
+  color: var(--midra-success);
+  background: var(--midra-success-light);
+}
+
+.midra-status-warning {
+  color: var(--midra-warning);
+  background: var(--midra-warning-light);
+}
+
+.midra-status-danger {
+  color: var(--midra-danger);
+  background: var(--midra-danger-light);
+}
+
+.midra-status-info {
+  color: var(--midra-info);
+  background: var(--midra-info-light);
+}
+
+
+/* ==========================================================
+   GOLD ACCENT
+========================================================== */
+
+.midra-accent {
+  color: var(--midra-gold);
+}
+
+.midra-accent-border {
+  border-color: var(--midra-gold);
+}
+
+
+/* ==========================================================
+   DIVIDER
+========================================================== */
+
+.midra-divider {
+  height: 1px;
+  width: 100%;
+  background: var(--midra-border-light);
+  border: 0;
+}
+
+
+/* ==========================================================
+   FORM CONTROLS
+========================================================== */
+
+input,
+select,
+textarea {
+  color: var(--midra-text);
+  background: var(--midra-white);
+  border-color: var(--midra-border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--midra-text-light);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--midra-blue);
+  box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.12);
+  outline: none;
+}
+
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+button {
+  font-family: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--midra-blue);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   TABLES
+========================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--midra-white);
+}
+
+th {
+  background: var(--midra-navy);
+  color: var(--midra-white);
+  font-weight: 650;
+  text-align: left;
+}
+
+td,
+th {
+  border-bottom: 1px solid var(--midra-border-light);
+  padding: 0.75rem;
+}
+
+tbody tr:hover {
+  background: var(--midra-surface);
+}
+
+
+/* ==========================================================
+   CODE
+========================================================== */
+
+code,
+pre {
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    monospace;
+}
+
+code {
+  color: var(--midra-navy);
+  background: var(--midra-surface);
+  border: 1px solid var(--midra-border-light);
+  border-radius: var(--midra-radius-sm);
+  padding: 0.15em 0.35em;
+}
+
+
+/* ==========================================================
+   UTILITY BACKGROUNDS
+========================================================== */
+
+.midra-bg-navy {
+  background: var(--midra-navy);
+}
+
+.midra-bg-blue {
+  background: var(--midra-blue);
+}
+
+.midra-bg-teal {
+  background: var(--midra-teal);
+}
+
+.midra-bg-surface {
+  background: var(--midra-surface);
+}
+
+.midra-bg-white {
+  background: var(--midra-white);
+}
+
+
+/* ==========================================================
+   UTILITY TEXT
+========================================================== */
+
+.midra-text-navy {
+  color: var(--midra-navy);
+}
+
+.midra-text-blue {
+  color: var(--midra-blue);
+}
+
+.midra-text-teal {
+  color: var(--midra-teal);
+}
+
+.midra-text-muted {
+  color: var(--midra-text-muted);
+}
+
+.midra-text-white {
+  color: var(--midra-white);
+}
+
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--midra-blue);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* ==========================================================
+   Z.27C-R19: APPROVAL PATHWAY — TRUE GLOBAL DYNAMIC CSS
+   Dynamic approval-pathway nodes are rendered by JavaScript,
+   so these rules must live in the imported global stylesheet.
+   ========================================================== */
+
+.approval-pathway-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.approval-pathway-item {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 16px;
+  background: #f5f7fa;
+  border: 1px solid #dbe2e8;
+  box-sizing: border-box;
+}
+
+.approval-pathway-item span,
+.approval-pathway-verification > span,
+.approval-pathway-source > span {
+  display: block;
+  color: #74818d;
+  font-size: .64rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.approval-pathway-item strong {
+  display: block;
+  min-width: 0;
+  color: #102c43;
+  font-size: .94rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.approval-pathway-details {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.approval-pathway-verification,
+.approval-pathway-source {
+  min-width: 0;
+  padding: 16px;
+  background: #f5f7fa;
+  border: 1px solid #dbe2e8;
+  box-sizing: border-box;
+}
+
+.approval-pathway-verification p {
+  margin: 8px 0 0;
+  color: #65717d;
+  line-height: 1.6;
+}
+
+.approval-pathway-source {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.approval-pathway-source strong {
+  color: #102c43;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.approval-pathway-source a {
+  color: #0e5c8d;
+  font-size: .78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.approval-pathway-source a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .approval-pathway-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .approval-pathway-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   Z.27C-R31: APPROVAL PATHWAY LABEL REFINEMENT
+   Keep long API enum labels readable inside the four summary
+   cards without changing their underlying values.
+   ========================================================== */
+
+.approval-pathway-summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.approval-pathway-item {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.approval-pathway-item strong {
+  min-width: 0;
+  font-size: .88rem;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media (max-width: 1050px) {
+  .approval-pathway-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .approval-pathway-item strong {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .approval-pathway-summary {
+    grid-template-columns: 1fr;
+  }
+}

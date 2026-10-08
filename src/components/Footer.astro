@@ -63,9 +63,7 @@ const company = [
       <div class="footer-column">
 
         <h3>
-
           Company
-
         </h3>
 
         <nav
@@ -77,9 +75,7 @@ const company = [
             company.map((item) => (
 
               <a href={item.href}>
-
                 {item.label}
-
               </a>
 
             ))
@@ -96,9 +92,7 @@ const company = [
       <div class="footer-column">
 
         <h3>
-
           Services
-
         </h3>
 
         <ul class="footer-services">
@@ -107,9 +101,7 @@ const company = [
             services.map((service) => (
 
               <li>
-
                 {service}
-
               </li>
 
             ))
@@ -126,9 +118,7 @@ const company = [
       <div class="footer-column">
 
         <h3>
-
           Contact
-
         </h3>
 
         <div class="footer-contact">
@@ -138,48 +128,28 @@ const company = [
             <span>Email</span>
 
             <a href="mailto:info@midraengineering.com">
-
               info@midraengineering.com
-
             </a>
 
           </div>
-      
 
           <div>
 
             <span>Phone</span>
 
             <a href="tel:+17325555555">
-
               (732) 555-5555
-
             </a>
 
-            </div>
-      
+          </div>
 
           <div>
 
             <span>OFFICE</span>
 
             <a href="New Jersey">
-
               New Jersey
-
             </a>
-
-         <span>
-
-
-
-</span>
-
-<p>
-
-
-
-</p>
 
           </div>
 
@@ -189,15 +159,14 @@ const company = [
           href="/contact"
           class="footer-button"
         >
-
           Request Proposal
-
         </a>
 
       </div>
 
-  </div>
-      <!-- =======================================================
+    </div>
+
+    <!-- =======================================================
          Footer Bottom
     ======================================================== -->
 
@@ -206,9 +175,7 @@ const company = [
       <div class="footer-bottom-left">
 
         <p>
-
           © {new Date().getFullYear()} MIDRA Engineering. All Rights Reserved.
-
         </p>
 
       </div>
@@ -216,21 +183,20 @@ const company = [
       <div class="footer-bottom-center">
 
         <a href="/privacy-policy">
-
           Privacy Policy
-
         </a>
 
         <a href="/terms">
-
           Terms of Use
-
         </a>
 
       </div>
 
       <div class="footer-bottom-right">
-      
+
+        <span class="footer-social-label">
+          Follow us:
+        </span>
 
         <!-- Instagram -->
 
@@ -252,7 +218,7 @@ const company = [
 
         </a>
 
-                <!-- Facebook -->
+        <!-- Facebook -->
 
         <a
           href="https://www.facebook.com/midraengineering"
@@ -272,7 +238,7 @@ const company = [
 
         </a>
 
-                <!-- LinkedIn -->
+        <!-- LinkedIn -->
 
         <a
           href="https://www.linkedin.com/company/midraengineering"
@@ -321,6 +287,39 @@ const company = [
 </footer>
 
 <style>
+
+/* ==========================================================
+   Follow Us
+   ========================================================== */
+
+.footer-social-label {
+
+  display: block;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.12em;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+
+  margin-right: 4px;
+
+}
+
 /* ==========================================================
    MIDRA Engineering Footer
    ========================================================== */
@@ -349,40 +348,43 @@ const company = [
    Main Grid
    ========================================================== */
 
-.footer-grid{
+.footer-grid {
 
-    display:grid;
+  display: grid;
 
-    grid-template-columns:1.5fr .9fr .9fr .9fr;
+  grid-template-columns: 1.5fr .9fr .9fr .9fr;
 
-    gap:60px;
+  gap: 60px;
 
-    align-items:start;
+  align-items: start;
 
 }
-
 
 /* ==========================================================
    Brand
    ========================================================== */
 
-.footer-brand{
+.footer-brand {
 
-    max-width:500px;
+  max-width: 500px;
 
 }
 
-.footer-logo{
-    display:inline-flex;
-    margin-bottom:6px;
+.footer-logo {
+
+  display: inline-flex;
+
+  margin-bottom: 6px;
+
 }
 
 .footer-logo img {
 
-    display: block;
+  display: block;
 
-    width: 170px;
-    height: auto;
+  width: 170px;
+
+  height: auto;
 
 }
 
@@ -568,42 +570,48 @@ The logo remains completely static.
 
 .footer-button {
 
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+  display: inline-flex;
 
-    height: 52px;
-    padding: 0 30px;
+  justify-content: center;
 
-    border-radius: 999px;
+  align-items: center;
 
-    background: #C89B3C;
-    color: #08295E;
+  height: 52px;
 
-    text-decoration: none;
-    font-weight: 700;
+  padding: 0 30px;
 
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease,
-        background .35s ease,
-        color .35s ease;
+  border-radius: 999px;
 
-    box-shadow:
-        0 12px 28px rgba(0,0,0,.18);
+  background: #C89B3C;
+
+  color: #08295E;
+
+  text-decoration: none;
+
+  font-weight: 700;
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease,
+    background .35s ease,
+    color .35s ease;
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.18);
 
 }
 
 .footer-button:hover {
 
-    background: #D5A846;
+  background: #D5A846;
 
-    transform: translateY(-4px);
+  transform: translateY(-4px);
 
-    box-shadow:
-        0 22px 48px rgba(0,0,0,.28);
+  box-shadow:
+    0 22px 48px rgba(0,0,0,.28);
 
 }
+
 /* ==========================================================
    Footer Bottom
    ========================================================== */
@@ -635,13 +643,9 @@ The logo remains completely static.
 }
 
 .footer-bottom-center {
-
   display: flex;
-
   align-items: center;
-
-  gap: 22px;
-
+  gap: 120px;
 }
 
 .footer-bottom-center a {
@@ -671,6 +675,8 @@ The logo remains completely static.
   display: flex;
 
   align-items: center;
+
+  justify-content: flex-end;
 
   gap: 14px;
 
@@ -741,11 +747,15 @@ The logo remains completely static.
 
 @media (max-width: 1100px) {
 
-.footer-grid{
-    display:grid;
-    grid-template-columns:0.9fr 1fr 1fr;
-    column-gap:45px;
-}
+  .footer-grid {
+
+    display: grid;
+
+    grid-template-columns: .9fr 1fr 1fr;
+
+    column-gap: 45px;
+
+  }
 
   .footer-brand {
 
@@ -794,6 +804,8 @@ The logo remains completely static.
   .footer-bottom-right {
 
     justify-content: center;
+
+    flex-wrap: wrap;
 
   }
 
@@ -852,6 +864,7 @@ The logo remains completely static.
   }
 
 }
+
 /* ==========================================================
    Rendering Improvements
    ========================================================== */

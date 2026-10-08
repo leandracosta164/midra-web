@@ -2,6 +2,7 @@
 const currentPath = Astro.url.pathname;
 
 const navigation = [
+  { label: "MIDRA INTELLIGENCE", href: "/property-intelligence", intelligence: true },
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
@@ -49,16 +50,17 @@ const navigation = [
 
             return (
 
-              <a
-                href={item.href}
-                class:list={[
-                  "nav-link",
-                  { active }
-                ]}
-                aria-current={active ? "page" : undefined}
-              >
-                {item.label}
-              </a>
+<a
+  href={item.href}
+  class:list={[
+    "nav-link",
+    { active },
+    { "intelligence-link": item.intelligence }
+  ]}
+  aria-current={active ? "page" : undefined}
+>
+  {item.label}
+</a>
 
             );
 
@@ -303,7 +305,39 @@ The logo remains completely static.
   text-decoration: none;
 
   transition: color .2s ease;
+
+  
 }
+
+.intelligence-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+  padding: 0 18px;
+
+  border: 1px solid #C89B3C;
+  border-radius: 8px;
+
+  color: #08295E;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  background: rgba(200, 155, 60, 0.06);
+}
+
+.intelligence-link:hover {
+  color: #08295E;
+  background: rgba(200, 155, 60, 0.14);
+}
+
+.intelligence-link::after {
+  display: none;
+}
+
 
 .nav-link:hover {
   color: #08295E;

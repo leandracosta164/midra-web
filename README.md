@@ -1,43 +1,23 @@
-# Astro Starter Kit: Minimal
+# MIDRA Engineering Website
 
-```sh
-npm create astro@latest -- --template minimal
+The public MIDRA Engineering website and the MIDRA Property Intelligence experience live in this project.
+
+## Local development
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Website:
+http://127.0.0.1:4321
 
-## 🚀 Project Structure
+Local Engineering pages fall back to `http://localhost:8000`. For deployment, set `PUBLIC_MIDRA_ENGINEERING_API_BASE_URL` to the HTTPS MIDRA API origin, or reverse-proxy the API at the Engineering site origin.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Product direction
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+The website remains the main MIDRA product. Property Intelligence is integrated into the website rather than being a separate application. The visual language follows the approved Property Intelligence Report: MIDRA navy, restrained blue accents, warm gold details, strong grids, clear data cards, and report-style information hierarchy.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The sample report is available at:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`/reports/MIDRA_Property_Intelligence_Report_Example.pdf`

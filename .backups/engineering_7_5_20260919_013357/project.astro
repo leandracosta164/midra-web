@@ -1,0 +1,192 @@
+---
+import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
+---
+<EngineeringLayout title="Project | MIDRA Engineering" active="projects">
+  <a class="back-link" href="/engineering">← Command Center</a>
+  <section id="job-workspace" class="job-workspace">
+    <div class="workspace-empty"><strong>Loading project workspace…</strong><span id="loading-job">Engineering Job</span></div>
+  </section>
+
+  <dialog id="state-dialog" class="project-dialog lifecycle-dialog">
+    <form id="state-form" class="project-form">
+      <div class="project-dialog-heading">
+        <div>
+          <span class="eyebrow">PROJECT CONTROL</span>
+          <h2>Change project state</h2>
+          <p>This is an explicit professional workflow action. MIDRA records the change in the Engineering Job activity history.</p>
+        </div>
+        <button id="close-state-dialog" class="dialog-close" type="button" aria-label="Close">×</button>
+      </div>
+      <div class="project-form-grid lifecycle-form-grid">
+        <label>
+          New state
+          <select id="new-project-state" required>
+            <option value="ACTIVE">Active</option>
+            <option value="WAITING">Waiting</option>
+            <option value="ON_HOLD">On Hold</option>
+            <option value="READY_FOR_REVIEW">Ready for Review</option>
+            <option value="CLOSEOUT">Closeout</option>
+            <option value="CLOSED">Closed</option>
+          </select>
+        </label>
+        <label class="project-form-wide">
+          Reason <span class="field-optional">Optional, but recommended</span>
+          <textarea id="state-reason" maxlength="1000" rows="4" placeholder="Why is the project state changing?"></textarea>
+        </label>
+      </div>
+      <div id="state-message" class="project-form-message" aria-live="polite"></div>
+      <div class="project-form-actions">
+        <button id="cancel-state-change" class="secondary-action" type="button">Cancel</button>
+        <button id="confirm-state-change" class="primary-action" type="submit">Confirm State Change</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const API="http://localhost:8000";
+    const root=document.querySelector("#job-workspace");
+    const jobNumber=new URLSearchParams(window.location.search).get("job");
+    const local=["localhost","127.0.0.1"].includes(window.location.hostname);
+    const stateDialog=document.querySelector("#state-dialog");
+    const stateForm=document.querySelector("#state-form");
+    const stateMessage=document.querySelector("#state-message");
+    const stateSelect=document.querySelector("#new-project-state");
+    const stateReason=document.querySelector("#state-reason");
+    const confirmStateButton=document.querySelector("#confirm-state-change");
+    let currentWorkspace=null;
+    let currentUser=null;
+
+    const esc=(v)=>{const d=document.createElement("div");d.textContent=v??"";return d.innerHTML};
+    const label=(v)=>String(v||"").replaceAll("_"," ");
+
+    async function api(path,options={}){
+      const response=await fetch(`${API}${path}`,{credentials:"include",...options});
+      if(response.status===401){window.location.replace("/engineering/login");throw new Error("authentication required");}
+      const body=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(body.detail || `API ${response.status}`);
+      return body;
+    }
+
+    function eventDescription(event){
+      if(event.event_type==="JOB_STATE_CHANGED"){
+        const from=label(event.from_state || "UNKNOWN");
+        const to=label(event.to_state || "UNKNOWN");
+        return `${from} → ${to}${event.reason ? ` — ${event.reason}`:""}`;
+      }
+      return event.summary || event.reference_id || label(event.event_type || "PROJECT EVENT");
+    }
+
+    function renderWorkspace(w){
+      currentWorkspace=w;
+      const i=w.identity,s=w.status,a=w.activity;
+      const sections=Object.keys(w.connected_sections||{});
+      const events=[...(a.recent_events||[])].reverse();
+      root.innerHTML=`
+        <header class="job-header">
+          <div><span class="job-number">${esc(i.job_number)}</span><h1>${esc(i.project_name)}</h1>
+          <p>${esc(i.project_type)}${i.property_address ? ` · ${esc(i.property_address)}`:""}</p></div>
+          <div class="job-header-actions">
+            <div class="job-state">${esc(label(s.project_state))}</div>
+            <button id="change-state-button" class="secondary-action compact-action" type="button">Change State</button>
+          </div>
+        </header>
+        <div class="job-summary-grid">
+          <article><span>Attention</span><strong>${esc(s.attention)}</strong></article>
+          <article><span>Next action</span><strong>${esc(s.next_action?.message || "No immediate action required.")}</strong></article>
+          <article><span>Activity</span><strong>${esc(a.event_count)} events</strong></article>
+          <article><span>Version</span><strong>${esc(s.version)}</strong></article>
+        </div>
+        <div class="project-workspace-grid">
+          <section class="workspace-panel">
+            <div class="panel-heading"><div><span class="panel-label">PROJECT WORKSPACE</span><h2>Connected work</h2></div></div>
+            <div class="section-grid">${sections.length ? sections.map(name=>`
+              <article class="section-card"><span>${esc(label(name))}</span>
+              <strong>${esc(w.connected_sections[name])}</strong></article>`).join("") :
+              '<div class="workspace-empty"><strong>No project systems connected yet.</strong><span>This project remains intentionally lean.</span></div>'}
+            </div>
+          </section>
+          <aside class="workspace-panel activity-panel">
+            <div class="panel-heading"><div><span class="panel-label">ACTIVITY</span><h2>Recent project history</h2></div></div>
+            <div class="activity-list">${events.length ? events.map(event=>`
+              <article class="activity-item">
+                <span>${esc(label(event.event_type || "PROJECT EVENT"))}</span>
+                <strong>${esc(eventDescription(event))}</strong>
+                ${event.authorized_by ? `<small>Authorized by ${esc(event.authorized_by)}</small>`:""}
+              </article>`).join("") :
+              '<div class="workspace-empty"><strong>No activity recorded yet.</strong><span>Explicit project actions will appear here.</span></div>'}
+            </div>
+          </aside>
+        </div>
+        <div class="professional-control">Professional actions require explicit approval. MIDRA will not automatically issue, submit, or mark professional work complete.</div>`;
+
+      document.querySelector("#change-state-button").addEventListener("click",()=>{
+        stateMessage.textContent="";
+        stateReason.value="";
+        stateSelect.value=s.project_state;
+        stateDialog.showModal();
+      });
+    }
+
+    async function loadWorkspace(){
+      if(!local){
+        root.innerHTML='<div class="workspace-empty"><strong>Internal workplace is not enabled on the public site.</strong><span>Authentication is required before production access.</span></div>';
+        return;
+      }
+      if(!jobNumber){
+        root.innerHTML='<div class="workspace-empty"><strong>No Engineering Job selected.</strong><span>Return to the Command Center and open a project.</span></div>';
+        return;
+      }
+      const loading=document.querySelector("#loading-job");
+      if(loading) loading.textContent=jobNumber;
+      try{
+        const [workspace,user]=await Promise.all([
+          api(`/engineering/workspace/${encodeURIComponent(jobNumber)}`),
+          api("/engineering/auth/me")
+        ]);
+        currentUser=user.email;
+        renderWorkspace(workspace);
+      }catch(error){
+        if(error.message!=="authentication required"){
+          root.innerHTML='<div class="workspace-empty"><strong>Project workspace unavailable.</strong><span>Confirm the MIDRA API is running and that this Engineering Job exists.</span></div>';
+        }
+      }
+    }
+
+    document.querySelector("#close-state-dialog").addEventListener("click",()=>stateDialog.close());
+    document.querySelector("#cancel-state-change").addEventListener("click",()=>stateDialog.close());
+    stateDialog.addEventListener("click",(event)=>{if(event.target===stateDialog) stateDialog.close();});
+
+    stateForm.addEventListener("submit",async(event)=>{
+      event.preventDefault();
+      if(!currentWorkspace || !currentUser) return;
+      const newState=stateSelect.value;
+      const oldState=currentWorkspace.status.project_state;
+      if(newState===oldState){
+        stateMessage.textContent="Select a different project state.";
+        return;
+      }
+      confirmStateButton.disabled=true;
+      stateMessage.textContent="Recording state change…";
+      try{
+        await api(`/engineering/jobs/${encodeURIComponent(jobNumber)}/state`,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            state:newState,
+            authorized_by:currentUser,
+            reason:stateReason.value.trim() || null
+          })
+        });
+        const refreshed=await api(`/engineering/workspace/${encodeURIComponent(jobNumber)}`);
+        stateDialog.close();
+        renderWorkspace(refreshed);
+      }catch(error){
+        if(error.message!=="authentication required") stateMessage.textContent=error.message;
+      }finally{
+        confirmStateButton.disabled=false;
+      }
+    });
+
+    loadWorkspace();
+  </script>
+</EngineeringLayout>

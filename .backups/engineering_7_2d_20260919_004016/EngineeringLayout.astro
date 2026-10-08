@@ -1,0 +1,65 @@
+---
+import "../styles/base/global.css";
+import "../styles/engineering/workplace.css";
+
+interface Props {
+  title?: string;
+  active?: string;
+}
+
+const {
+  title = "MIDRA Engineering Workplace",
+  active = "command-center"
+} = Astro.props;
+
+const nav = [
+  { id:"command-center", label:"Command Center", href:"/engineering/" },
+  { id:"projects", label:"Projects", href:"/engineering/#projects" },
+  { id:"clients", label:"Clients", href:"/engineering/#clients", disabled:true },
+  { id:"calendar", label:"Calendar", href:"/engineering/#calendar", disabled:true },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="theme-color" content="#071522" />
+  <title>{title}</title>
+</head>
+<body class="engineering-app">
+  <div class="workplace-shell">
+    <aside class="workplace-sidebar">
+      <a class="workplace-brand" href="/engineering/" aria-label="MIDRA Engineering Workplace">
+        <img src="/images/branding/midra-logo-white.png" alt="MIDRA Engineering" />
+        <span>WORKPLACE</span>
+      </a>
+
+      <nav class="workplace-nav" aria-label="Engineering workplace">
+        {nav.map(item => (
+          item.disabled
+            ? <span class="workplace-nav-item is-disabled"><span>{item.label}</span><small>Soon</small></span>
+            : <a class:list={["workplace-nav-item", {"is-active":active===item.id}]} href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+
+      <div class="workplace-sidebar-foot">
+        <span class="environment-dot"></span>
+        <div><strong>Engineering System</strong><small id="api-status">Checking API…</small></div>
+      </div>
+    </aside>
+
+    <div class="workplace-main">
+      <header class="workplace-topbar">
+        <div>
+          <span class="workplace-kicker">MIDRA ENGINEERING</span>
+          <strong>Professional Workspace</strong>
+        </div>
+        <div class="workplace-safety">Professional actions require your approval</div>
+      </header>
+      <main class="workplace-content"><slot /></main>
+    </div>
+  </div>
+</body>
+</html>

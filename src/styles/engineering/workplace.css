@@ -1,0 +1,241 @@
+/* MIDRA Engineering internal workplace — intentionally separate from public-site layout */
+.engineering-app{background:#eef2f6;color:#1d2939;font-family:Inter,"Segoe UI",sans-serif}
+.workplace-shell{min-height:100vh;display:grid;grid-template-columns:248px minmax(0,1fr)}
+.workplace-sidebar{position:sticky;top:0;height:100vh;background:#071522;color:#fff;padding:24px 16px;display:flex;flex-direction:column}
+.workplace-brand{display:block;padding:8px 10px 28px;border-bottom:1px solid rgba(255,255,255,.1)}
+.workplace-brand img{width:150px;max-height:48px;object-fit:contain;object-position:left center}
+.workplace-brand span{display:block;margin-top:10px;font-size:10px;letter-spacing:.24em;color:#8fa4b8}
+.workplace-nav{display:grid;gap:6px;margin-top:26px}
+.workplace-nav-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:7px;color:#b8c6d3;font-size:14px;font-weight:600}
+.workplace-nav-item:hover,.workplace-nav-item.is-active{background:#102b43;color:#fff}
+.workplace-nav-item.is-disabled{opacity:.45}.workplace-nav-item small{font-size:9px;text-transform:uppercase;letter-spacing:.12em}
+.workplace-sidebar-foot{margin-top:auto;padding:16px 10px 4px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:10px;align-items:center}
+.environment-dot{width:8px;height:8px;border-radius:50%;background:#1aa6a6}.workplace-sidebar-foot strong,.workplace-sidebar-foot small{display:block}.workplace-sidebar-foot strong{font-size:12px}.workplace-sidebar-foot small{margin-top:3px;color:#8fa4b8;font-size:11px}
+.workplace-main{min-width:0}.workplace-topbar{height:72px;padding:0 34px;background:#fff;border-bottom:1px solid #e4e7ec;display:flex;align-items:center;justify-content:space-between}
+.workplace-kicker{display:block;color:#667085;font-size:9px;font-weight:800;letter-spacing:.16em}.workplace-topbar strong{font-size:14px;color:#0b1f33}.workplace-safety{font-size:11px;color:#667085;padding:7px 10px;border:1px solid #e4e7ec;border-radius:999px}
+.workplace-content{padding:34px;max-width:1500px;margin:0 auto}
+.workspace-heading{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;margin-bottom:28px}.workspace-heading h1,.job-header h1{font-family:Inter,sans-serif;margin:4px 0 8px;font-size:32px;letter-spacing:-.035em}.workspace-heading p{max-width:720px;margin:0;color:#667085}.eyebrow,.panel-label{font-size:10px;font-weight:800;letter-spacing:.15em;color:#1769aa}
+.primary-action{border:0;border-radius:7px;background:#0b1f33;color:#fff;padding:11px 17px;font-weight:700}.primary-action:disabled{opacity:.45}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.metric-card,.workspace-panel,.job-summary-grid article{background:#fff;border:1px solid #e4e7ec;border-radius:10px;box-shadow:0 1px 2px rgba(11,31,51,.03)}
+.metric-card{padding:18px}.metric-card span,.metric-card small{display:block;color:#667085}.metric-card span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.metric-card strong{display:block;margin:7px 0 3px;font-size:25px;color:#0b1f33}.metric-card small{font-size:11px}
+.workspace-grid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(280px,.8fr);gap:20px}.workspace-panel{overflow:hidden}.panel-heading{min-height:70px;padding:17px 20px;border-bottom:1px solid #e4e7ec;display:flex;justify-content:space-between;align-items:center}.panel-heading h2{font-family:Inter,sans-serif;font-size:17px;margin:4px 0 0}.panel-heading select{padding:8px 10px;border:1px solid #d0d5dd;border-radius:6px;background:#fff}
+.project-list{min-height:260px}.project-row{display:grid;grid-template-columns:minmax(190px,1.2fr) 100px minmax(240px,1.5fr) 28px;gap:18px;align-items:center;padding:17px 20px;border-bottom:1px solid #eef1f4;color:#1d2939}.project-row:hover{background:#f8fafc}.project-identity strong,.project-identity small,.next-action span,.next-action strong{display:block}.job-number{font-size:10px;font-weight:800;letter-spacing:.08em;color:#1769aa}.project-identity strong{margin:3px 0;font-size:14px}.project-identity small{font-size:11px;color:#667085}.attention{justify-self:start;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.06em}.attention-info,.attention-normal{background:#eef6fc;color:#1769aa}.attention-attention{background:#fff7e6;color:#8a5b15}.attention-urgent{background:#fef3f2;color:#b42318}.next-action span{font-size:9px;color:#667085;font-weight:800;letter-spacing:.07em}.next-action strong{margin-top:4px;font-size:12px}.row-arrow{color:#98a2b3;font-size:20px}
+.workspace-empty{padding:42px 22px;text-align:center;color:#667085}.workspace-empty strong,.workspace-empty span{display:block}.workspace-empty strong{color:#344054}.workspace-empty span{font-size:12px;margin-top:6px}
+.rule-list>div{display:flex;gap:12px;padding:17px 20px;border-bottom:1px solid #eef1f4}.rule-list b{color:#1769aa;font-size:11px}.rule-list p{margin:0}.rule-list strong,.rule-list span{display:block}.rule-list strong{font-size:12px}.rule-list span{font-size:11px;color:#667085;margin-top:4px;line-height:1.45}
+.workspace-notice,.professional-control{margin-top:18px;padding:12px 15px;border:1px solid #f0d9ad;background:#fff8ea;border-radius:7px;color:#7a5419;font-size:12px}
+.back-link{display:inline-block;margin-bottom:18px;font-size:12px;font-weight:700}.job-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.job-header p{margin:0}.job-state{padding:7px 10px;border:1px solid #d0d5dd;border-radius:999px;background:#fff;font-size:10px;font-weight:800}.job-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.job-summary-grid article{padding:17px}.job-summary-grid span,.job-summary-grid strong{display:block}.job-summary-grid span{font-size:10px;color:#667085;text-transform:uppercase;font-weight:800}.job-summary-grid strong{font-size:13px;margin-top:6px}
+.section-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}.section-card{padding:14px;border:1px solid #e4e7ec;border-radius:8px;background:#f9fafb}.section-card span,.section-card strong{display:block}.section-card span{text-transform:capitalize;font-size:10px;color:#667085;font-weight:800}.section-card strong{margin-top:6px;font-size:12px}
+@media(max-width:980px){.workplace-shell{grid-template-columns:76px 1fr}.workplace-brand img{width:44px}.workplace-brand span,.workplace-nav-item span,.workplace-nav-item small,.workplace-sidebar-foot div{display:none}.workplace-nav-item{justify-content:center}.metric-grid,.job-summary-grid{grid-template-columns:repeat(2,1fr)}.workspace-grid{grid-template-columns:1fr}.project-row{grid-template-columns:1fr 90px}.next-action{grid-column:1/-1}.row-arrow{display:none}}
+@media(max-width:640px){.workplace-content{padding:22px 14px}.workplace-topbar{padding:0 16px}.workplace-safety{display:none}.workspace-heading{display:block}.primary-action{margin-top:16px}.metric-grid,.job-summary-grid{grid-template-columns:1fr 1fr}.project-row{grid-template-columns:1fr}.attention{justify-self:start}.section-grid{grid-template-columns:1fr}}
+
+.login-shell{min-height:calc(100vh - 140px);display:grid;place-items:center;padding:40px}
+.login-card{width:min(440px,100%);background:#fff;border:1px solid #e4e7ec;border-radius:12px;padding:30px;box-shadow:0 10px 30px rgba(11,31,51,.08)}
+.login-card h1{font-size:25px;margin:6px 0 10px;letter-spacing:-.025em}.login-card p{color:#667085;font-size:13px;line-height:1.55;margin:0 0 22px}
+.login-card label{display:block;font-size:11px;font-weight:800;color:#344054;margin:14px 0}.login-card input{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid #d0d5dd;border-radius:7px;font:inherit}
+.login-card .primary-action{width:100%;margin-top:8px}.login-message{min-height:20px;margin-top:12px;color:#b42318;font-size:12px;text-align:center}
+
+
+
+/* Engineering Job creation */
+.project-dialog{width:min(760px,calc(100vw - 32px));max-height:calc(100vh - 48px);padding:0;border:0;border-radius:12px;background:#fff;color:#1d2939;box-shadow:0 24px 70px rgba(7,21,34,.28)}
+.project-dialog::backdrop{background:rgba(7,21,34,.58);backdrop-filter:blur(2px)}
+.project-form{padding:0}
+.project-dialog-heading{display:flex;justify-content:space-between;gap:24px;padding:24px 26px 20px;border-bottom:1px solid #e4e7ec}
+.project-dialog-heading h2{margin:4px 0 6px;font-size:23px;letter-spacing:-.025em;color:#0b1f33}
+.project-dialog-heading p{margin:0;max-width:590px;color:#667085;font-size:12px;line-height:1.5}
+.dialog-close{align-self:flex-start;border:0;background:transparent;color:#667085;font-size:25px;line-height:1;cursor:pointer;padding:2px 4px}
+.project-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;padding:22px 26px 8px}
+.project-form-grid label{display:block;font-size:11px;font-weight:800;color:#344054}
+.project-form-grid input,.project-form-grid select{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid #d0d5dd;border-radius:7px;background:#fff;color:#1d2939;font:inherit}
+.project-form-grid input:focus,.project-form-grid select:focus{outline:2px solid rgba(23,105,170,.18);border-color:#1769aa}
+.project-form-wide{grid-column:1/-1}
+.field-optional{font-weight:500;color:#98a2b3}
+.project-form-message{min-height:20px;margin:7px 26px 0;color:#b42318;font-size:12px}
+.project-form-actions{display:flex;justify-content:flex-end;gap:10px;padding:14px 26px 24px}
+.secondary-action{border:1px solid #d0d5dd;border-radius:7px;background:#fff;color:#344054;padding:10px 16px;font-weight:700;cursor:pointer}
+.secondary-action:hover{background:#f8fafc}
+@media(max-width:640px){.project-form-grid{grid-template-columns:1fr}.project-form-wide{grid-column:auto}.project-dialog-heading,.project-form-grid{padding-left:18px;padding-right:18px}.project-form-actions{padding-left:18px;padding-right:18px}}
+
+
+/* Milestone 7.4 — project lifecycle + activity */
+.job-header-actions{display:flex;align-items:center;gap:10px}
+.compact-action{padding:7px 11px;font-size:11px}
+.project-workspace-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr);gap:20px}
+.activity-panel{align-self:start}
+.activity-list{max-height:420px;overflow:auto}
+.activity-item{padding:15px 18px;border-bottom:1px solid #eef1f4}
+.activity-item:last-child{border-bottom:0}
+.activity-item span,.activity-item strong,.activity-item small{display:block}
+.activity-item span{font-size:9px;font-weight:800;letter-spacing:.07em;color:#1769aa}
+.activity-item strong{margin-top:5px;font-size:12px;line-height:1.45;color:#344054}
+.activity-item small{margin-top:5px;font-size:10px;color:#667085}
+.lifecycle-dialog{width:min(620px,calc(100vw - 32px))}
+.lifecycle-form-grid{grid-template-columns:1fr}
+.lifecycle-form-grid textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid #d0d5dd;border-radius:7px;background:#fff;color:#1d2939;font:inherit;resize:vertical}
+.lifecycle-form-grid textarea:focus{outline:2px solid rgba(23,105,170,.18);border-color:#1769aa}
+@media(max-width:980px){.project-workspace-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.job-header{gap:14px}.job-header-actions{align-items:flex-end;flex-direction:column}.compact-action{margin-top:0}}
+
+/* Milestone 7.5 — connected work activation */
+.section-card small{display:block;margin-top:7px;font-size:10px;line-height:1.45;color:#667085}
+.panel-heading .compact-action{margin-left:auto}
+
+
+/* Milestone 7.6 — substantial Project Operations module */
+.operations-panel{margin:20px 0}
+.operations-list{display:grid}
+.operation-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 18px;border-top:1px solid #eef1f4;border-left:4px solid #98a2b3}
+.operation-item:first-child{border-top:0}
+.operation-item span,.operation-item strong,.operation-item small{display:block}
+.operation-item span{font-size:9px;font-weight:800;letter-spacing:.06em;color:#667085}
+.operation-item strong{margin-top:4px;font-size:12px;color:#1d2939}
+.operation-item small{margin-top:5px;font-size:10px;color:#667085}
+.operation-attention{border-left-color:#f79009}.operation-urgent{border-left-color:#d92d20}.operation-info{border-left-color:#2e90fa}
+.project-form-grid textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid #d0d5dd;border-radius:7px;background:#fff;color:#1d2939;font:inherit;resize:vertical}
+.operation-checkbox{display:flex!important;align-items:center;gap:8px;margin-top:4px}.operation-checkbox input{width:auto!important;margin:0!important}
+@media(max-width:640px){.operation-item{align-items:flex-start;flex-direction:column}.job-header-actions{width:100%;align-items:stretch}.job-header-actions .compact-action{width:100%}}
+
+
+/* Milestone 7.7 — Deliverables & Submission Register */
+.deliverables-panel{margin:20px 0}
+.deliverables-list{display:grid}
+.deliverable-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 18px;border-top:1px solid #eef1f4}
+.deliverable-item:first-child{border-top:0}
+.deliverable-main span,.deliverable-main strong,.deliverable-main small{display:block}
+.deliverable-main span{font-size:9px;font-weight:800;letter-spacing:.06em;color:#667085}
+.deliverable-main strong{margin-top:4px;font-size:12px;color:#1d2939}
+.deliverable-main small{margin-top:5px;font-size:10px;color:#667085}
+.deliverable-actions{display:flex;align-items:center;gap:10px}
+.deliverable-status{display:inline-flex;padding:5px 8px;border-radius:999px;background:#f2f4f7;font-size:9px;font-weight:800;letter-spacing:.04em;color:#344054}
+.status-ready_for_review{background:#eff8ff;color:#175cd3}
+.status-issued,.status-submitted{background:#fff6ed;color:#b54708}
+.status-approved{background:#ecfdf3;color:#027a48}
+.status-superseded{background:#f2f4f7;color:#667085}
+.professional-confirm{display:flex!important;align-items:center;gap:9px;padding:12px;border:1px solid #f5c26b;border-radius:7px;background:#fffaeb}
+.professional-confirm input{width:auto!important;margin:0!important}
+.professional-warning{margin:0 0 14px;padding:10px 12px;border:1px solid #f5c26b;border-radius:7px;background:#fffaeb;color:#7a4b00;font-size:10px;line-height:1.5}
+@media(max-width:640px){.deliverable-item{align-items:flex-start;flex-direction:column}.deliverable-actions{width:100%;justify-content:space-between}}
+
+
+/* Milestone 7.8 — Private Project Documents & Revision Control */
+.documents-panel{margin:20px 0}
+.document-list{display:grid}
+.document-item{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 18px;border-top:1px solid #eef1f4}
+.document-item:first-child{border-top:0}
+.document-main span,.document-main strong,.document-main small{display:block}
+.document-main span{font-size:9px;font-weight:800;letter-spacing:.06em;color:#667085}
+.document-main strong{margin-top:4px;font-size:12px;color:#1d2939}
+.document-main small{margin-top:5px;font-size:10px;color:#667085}
+.document-actions{display:flex;align-items:center;gap:8px}
+@media(max-width:640px){.document-item{align-items:flex-start;flex-direction:column}.document-actions{width:100%;flex-wrap:wrap}}
+
+
+/* Milestone 7.9 — Review Comments & Response Control */
+.reviews-panel{margin:20px 0}
+.review-block{border-top:1px solid #eef1f4}.review-block:first-child{border-top:0}
+.review-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;background:#fafbfc}
+.review-heading span,.review-heading strong{display:block}.review-heading span{font-size:9px;color:#667085;font-weight:800}.review-heading strong{font-size:12px;margin-top:3px}
+.review-comment{display:grid;grid-template-columns:54px 1fr auto;gap:14px;align-items:start;padding:14px 18px;border-top:1px solid #eef1f4}
+.review-comment-number{font-weight:900;font-size:11px;color:#344054}
+.review-comment-body strong{display:block;font-size:11px;line-height:1.5}.review-comment-body small{display:block;margin-top:5px;color:#667085;font-size:9px}.review-comment-body p{margin:8px 0 0;font-size:10px;line-height:1.5;color:#475467}
+.review-comment-actions{display:flex;align-items:center;gap:8px}.review-status{font-size:9px;font-weight:800;padding:5px 8px;background:#f2f4f7;border-radius:999px}
+.compact-empty{padding:12px 18px}
+@media(max-width:700px){.review-comment{grid-template-columns:40px 1fr}.review-comment-actions{grid-column:2}.review-heading{align-items:flex-start;flex-direction:column}}
+
+
+/* Milestone 8.0 — Submission Packages & Transmittal Control */
+.submission-packages-panel{margin:20px 0}
+.submission-package-list{display:grid}
+.submission-package{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:15px 18px;border-top:1px solid #eef1f4}
+.submission-package:first-child{border-top:0}
+.submission-package-main span,.submission-package-main strong,.submission-package-main small{display:block}
+.submission-package-main span{font-size:9px;font-weight:800;color:#667085;letter-spacing:.04em}
+.submission-package-main strong{font-size:12px;margin-top:4px;color:#1d2939}
+.submission-package-main small{font-size:9px;margin-top:5px;color:#667085}
+.submission-package-actions{display:flex;align-items:center;gap:8px}
+select[multiple]{min-height:110px}
+@media(max-width:700px){.submission-package{align-items:flex-start;flex-direction:column}.submission-package-actions{width:100%;flex-wrap:wrap}}
+
+
+/* Milestone 8.1 — Dependencies & Deadline Control */
+.dependencies-panel{margin:20px 0}
+.dependency-list{display:grid}
+.dependency-item{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:15px 18px;border-top:1px solid #eef1f4}
+.dependency-item:first-child{border-top:0}
+.dependency-main span,.dependency-main strong,.dependency-main small{display:block}
+.dependency-main span{font-size:9px;font-weight:800;color:#667085;letter-spacing:.04em}
+.dependency-main strong{font-size:12px;margin-top:4px;color:#1d2939}
+.dependency-main small{font-size:9px;margin-top:5px;color:#667085}
+.dependency-actions{display:flex;align-items:center;gap:8px}
+@media(max-width:700px){.dependency-item{align-items:flex-start;flex-direction:column}.dependency-actions{width:100%;flex-wrap:wrap}}
+
+
+/* Milestone 8.2 — Action Queue */
+.action-items-panel{margin:20px 0}
+.action-item-list{display:grid}
+.action-item{display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:14px;padding:15px 18px;border-top:1px solid #eef1f4}
+.action-item:first-child{border-top:0}
+.action-priority{font-size:8px;font-weight:900;text-align:center;padding:5px 7px;border-radius:999px;background:#f2f4f7;color:#475467}
+.action-priority-high,.action-priority-urgent{font-weight:950}
+.action-main span,.action-main strong,.action-main small{display:block}
+.action-main span{font-size:9px;font-weight:800;color:#667085;letter-spacing:.04em}
+.action-main strong{font-size:12px;margin-top:4px;color:#1d2939}
+.action-main small{font-size:9px;margin-top:5px;color:#667085}
+.action-controls{display:flex;align-items:center;gap:8px}
+@media(max-width:700px){.action-item{grid-template-columns:72px 1fr}.action-controls{grid-column:2;flex-wrap:wrap}}
+
+/* Milestone 8.3 — Project Attention */
+.attention-panel{margin:20px 0}
+.attention-count{font-size:9px;font-weight:900;color:#475467;background:#f2f4f7;padding:6px 9px;border-radius:999px}
+.attention-list{display:grid}
+.attention-item{display:grid;grid-template-columns:82px 1fr 72px;align-items:center;gap:14px;padding:15px 18px;border-top:1px solid #eef1f4}
+.attention-item:first-child{border-top:0}
+.attention-kind{font-size:8px;font-weight:900;color:#475467;letter-spacing:.05em}
+.attention-main span,.attention-main strong,.attention-main small{display:block}
+.attention-main span{font-size:9px;font-weight:800;color:#667085;letter-spacing:.04em}
+.attention-main strong{font-size:12px;margin-top:4px;color:#1d2939}
+.attention-main small{font-size:9px;margin-top:5px;color:#667085}
+@media(max-width:700px){.attention-item{grid-template-columns:72px 1fr}.attention-item>.action-priority{grid-column:2;justify-self:start}}
+
+
+/* Milestone 8.4 — Next Move */
+.next-move-panel{margin:20px 0}
+.next-move-type{font-size:8px;font-weight:900;letter-spacing:.05em;background:#f2f4f7;color:#344054;padding:6px 9px;border-radius:999px}
+.next-move-body{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:18px}
+.next-move-body span,.next-move-body strong{display:block}
+.next-move-body span{font-size:9px;font-weight:800;color:#667085;letter-spacing:.04em}
+.next-move-body strong{font-size:15px;margin-top:5px;color:#101828}
+.next-move-body p{font-size:11px;line-height:1.55;color:#475467;margin:6px 0 0}
+.next-move-body small{font-size:9px;font-weight:700;color:#667085;white-space:nowrap}
+@media(max-width:700px){.next-move-body{display:block}.next-move-body small{display:block;margin-top:12px}}
+
+
+/* Milestone 8.5 — Project Health */
+.project-health-panel{margin:20px 0}
+.health-state{font-size:8px;font-weight:900;letter-spacing:.05em;background:#f2f4f7;color:#344054;padding:6px 9px;border-radius:999px}
+.project-health-body{padding:18px}
+.project-health-body>p{font-size:11px;color:#475467;margin:0 0 14px;line-height:1.55}
+.health-metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.health-metrics span{font-size:9px;color:#667085;padding:10px;border:1px solid #eaecf0;border-radius:8px}
+.health-metrics strong{display:block;font-size:16px;color:#101828;margin-bottom:3px}
+.health-signal-list{display:grid;gap:7px}
+.health-signal{display:grid;grid-template-columns:145px 1fr;gap:10px;align-items:center;padding:9px 11px;background:#f9fafb;border-radius:7px}
+.health-signal span{font-size:8px;font-weight:900;color:#667085;letter-spacing:.04em}
+.health-signal strong{font-size:10px;color:#344054}
+@media(max-width:700px){.health-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.health-signal{grid-template-columns:1fr}.health-signal strong{margin-top:2px}}
+
+
+/* Milestone 8.6 — Project Brief */
+.project-brief-panel{margin:20px 0}
+.brief-state{font-size:8px;font-weight:900;letter-spacing:.05em;background:#f2f4f7;color:#344054;padding:6px 9px;border-radius:999px}
+.project-brief-body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:18px;padding:18px}
+.brief-lead>span{font-size:8px;font-weight:900;color:#667085;letter-spacing:.05em}
+.brief-lead>strong{display:block;font-size:16px;color:#101828;margin-top:5px}
+.brief-lead>p{font-size:11px;line-height:1.55;color:#475467;margin:6px 0}
+.brief-lead>small{font-size:9px;font-weight:700;color:#667085}
+.brief-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.brief-stats span{font-size:8px;text-align:center;color:#667085;padding:9px 5px;border:1px solid #eaecf0;border-radius:8px}
+.brief-stats strong{display:block;font-size:15px;color:#101828;margin-bottom:3px}
+.brief-condition{margin:0 18px 16px;padding:10px 12px;background:#f9fafb;border-radius:7px;font-size:10px;color:#475467}
+@media(max-width:850px){.project-brief-body{grid-template-columns:1fr}.brief-stats{grid-template-columns:repeat(5,minmax(60px,1fr))}}
+@media(max-width:600px){.brief-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -1,0 +1,61 @@
+---
+import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
+---
+<EngineeringLayout title="Project | MIDRA Engineering" active="projects">
+  <a class="back-link" href="/engineering">← Command Center</a>
+  <section id="job-workspace" class="job-workspace">
+    <div class="workspace-empty"><strong>Loading project workspace…</strong><span id="loading-job">Engineering Job</span></div>
+  </section>
+
+  <script>
+    const API="http://localhost:8000";
+    const root=document.querySelector("#job-workspace");
+    const jobNumber=new URLSearchParams(window.location.search).get("job");
+    const local=["localhost","127.0.0.1"].includes(window.location.hostname);
+    const esc=(v)=>{const d=document.createElement("div");d.textContent=v??"";return d.innerHTML};
+
+    async function loadWorkspace(){
+      if(!local){
+        root.innerHTML='<div class="workspace-empty"><strong>Internal workplace is not enabled on the public site.</strong><span>Authentication is required before production access.</span></div>';
+        return;
+      }
+      if(!jobNumber){
+        root.innerHTML='<div class="workspace-empty"><strong>No Engineering Job selected.</strong><span>Return to the Command Center and open a project.</span></div>';
+        return;
+      }
+      const loading=document.querySelector("#loading-job");
+      if(loading) loading.textContent=jobNumber;
+      try{
+        const r=await fetch(`${API}/engineering/workspace/${encodeURIComponent(jobNumber)}`,{credentials:"include"});
+        if(r.status===401){window.location.replace("/engineering/login");return;}
+        if(!r.ok) throw new Error(String(r.status));
+        const w=await r.json(),i=w.identity,s=w.status,a=w.activity;
+        const sections=Object.keys(w.connected_sections||{});
+        root.innerHTML=`
+          <header class="job-header">
+            <div><span class="job-number">${esc(i.job_number)}</span><h1>${esc(i.project_name)}</h1>
+            <p>${esc(i.project_type)}${i.property_address ? ` · ${esc(i.property_address)}`:""}</p></div>
+            <div class="job-state">${esc(s.project_state)}</div>
+          </header>
+          <div class="job-summary-grid">
+            <article><span>Attention</span><strong>${esc(s.attention)}</strong></article>
+            <article><span>Next action</span><strong>${esc(s.next_action?.message || "No immediate action required.")}</strong></article>
+            <article><span>Activity</span><strong>${esc(a.event_count)} events</strong></article>
+            <article><span>Version</span><strong>${esc(s.version)}</strong></article>
+          </div>
+          <section class="workspace-panel">
+            <div class="panel-heading"><div><span class="panel-label">PROJECT WORKSPACE</span><h2>Connected work</h2></div></div>
+            <div class="section-grid">${sections.length ? sections.map(name=>`
+              <article class="section-card"><span>${esc(name.replaceAll("_"," "))}</span>
+              <strong>${esc(w.connected_sections[name])}</strong></article>`).join("") :
+              '<div class="workspace-empty"><strong>No project systems connected yet.</strong><span>This project remains intentionally lean.</span></div>'}
+            </div>
+          </section>
+          <div class="professional-control">Professional actions require explicit approval. MIDRA will not automatically issue, submit, or mark professional work complete.</div>`;
+      }catch{
+        root.innerHTML='<div class="workspace-empty"><strong>Project workspace unavailable.</strong><span>Confirm the MIDRA API is running and that this Engineering Job exists.</span></div>';
+      }
+    }
+    loadWorkspace();
+  </script>
+</EngineeringLayout>

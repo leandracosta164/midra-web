@@ -1,0 +1,238 @@
+---
+import EngineeringLayout from "../../layouts/EngineeringLayout.astro";
+---
+<EngineeringLayout title="Command Center | MIDRA Engineering">
+  <section class="workspace-heading">
+    <div>
+      <span class="eyebrow">COMMAND CENTER</span>
+      <h1>Engineering operations</h1>
+      <p>Projects that need attention, waiting dependencies, and the next action—without turning every project into a checklist.</p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center"><a class="secondary-action" href="/engineering/proposals">Proposal Workspace</a><button id="new-project-button" class="primary-action" type="button">New Project</button></div>
+  </section>
+
+  <section class="metric-grid" aria-label="Project summary">
+    <article class="metric-card"><span>Active projects</span><strong id="metric-projects">—</strong><small>Persistent Engineering Jobs</small></article>
+    <article class="metric-card"><span>Need attention</span><strong id="metric-attention">—</strong><small>Attention or approval required</small></article>
+    <article class="metric-card"><span>Waiting</span><strong id="metric-waiting">—</strong><small>External dependencies</small></article>
+    <article class="metric-card"><span>System</span><strong id="metric-system">Connecting</strong><small>PostgreSQL-backed API</small></article>
+  </section>
+
+  <section class="workspace-grid">
+    <div class="workspace-panel workspace-panel-main" id="projects">
+      <div class="panel-heading">
+        <div><span class="panel-label">PROJECTS</span><h2>What needs your attention</h2></div>
+        <select id="state-filter" aria-label="Filter projects by state">
+          <option value="">All states</option>
+          <option>ACTIVE</option><option>WAITING</option><option>ON_HOLD</option>
+          <option>READY_FOR_REVIEW</option><option>CLOSEOUT</option><option>CLOSED</option>
+        </select>
+      </div>
+      <div id="project-list" class="project-list">
+        <div class="workspace-empty"><strong>Loading Engineering Jobs…</strong><span>Connecting to the MIDRA Engineering API.</span></div>
+      </div>
+    </div>
+
+    <aside class="workspace-panel">
+      <div class="panel-heading"><div><span class="panel-label">WORKFLOW</span><h2>Operating rules</h2></div></div>
+      <div class="rule-list">
+        <div><b>01</b><p><strong>MIDRA organizes the work.</strong><span>Projects stay concise when the scope is small.</span></p></div>
+        <div><b>02</b><p><strong>Dependencies stay visible.</strong><span>Waiting on a client or agency does not create fake work for you.</span></p></div>
+        <div><b>03</b><p><strong>You retain professional control.</strong><span>Issue, approval, and completion decisions remain explicit.</span></p></div>
+      </div>
+    </aside>
+  </section>
+
+
+  <dialog id="new-project-dialog" class="project-dialog">
+    <form id="new-project-form" class="project-form">
+      <div class="project-dialog-heading">
+        <div>
+          <span class="eyebrow">NEW ENGINEERING JOB</span>
+          <h2>Create project</h2>
+          <p>Create the canonical Engineering Job first. Additional systems can be connected as the project develops.</p>
+        </div>
+        <button id="close-project-dialog" class="dialog-close" type="button" aria-label="Close">×</button>
+      </div>
+
+      <div class="project-form-grid">
+        <label>
+          Job number
+          <input id="new-job-number" name="job_number" maxlength="50" required placeholder="e.g. 2026-052" />
+        </label>
+        <label>
+          Project type
+          <select id="new-project-type" name="project_type" required>
+            <option value="">Select type</option>
+            <option value="PLOT_PLAN">Plot Plan</option>
+            <option value="SITE_PLAN">Site Plan</option>
+            <option value="SUBDIVISION">Subdivision</option>
+            <option value="GRADING_DRAINAGE">Grading / Drainage</option>
+            <option value="STORMWATER">Stormwater</option>
+            <option value="RETAINING_WALL">Retaining Wall</option>
+            <option value="SEPTIC">Septic</option>
+            <option value="ENGINEERING_REVIEW">Engineering Review</option>
+            <option value="COMPLETENESS_REVIEW">Completeness Review</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </label>
+        <label class="project-form-wide">
+          Project name
+          <input id="new-project-name" name="project_name" maxlength="300" required placeholder="e.g. 150 Bayside Drive" />
+        </label>
+        <label class="project-form-wide">
+          Property address
+          <input id="new-property-address" name="property_address" maxlength="500" placeholder="Street address, municipality, NJ" />
+        </label>
+        <label>
+          Client reference <span class="field-optional">Optional</span>
+          <input id="new-client-id" name="client_id" maxlength="100" placeholder="Client ID or name reference" />
+        </label>
+        <label>
+          Project source
+          <select id="new-project-source" name="source" required>
+            <option value="DIRECT">Direct / Existing Client</option>
+            <option value="REFERRAL">Referral</option>
+            <option value="WEBSITE">Website</option>
+            <option value="PHONE">Phone</option>
+            <option value="EMAIL">Email</option>
+            <option value="MIDRA_PROPERTY">MIDRA Property</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="new-project-message" class="project-form-message" aria-live="polite"></div>
+      <div class="project-form-actions">
+        <button id="cancel-project" class="secondary-action" type="button">Cancel</button>
+        <button id="create-project" class="primary-action" type="submit">Create Project</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="workspace-notice" class="workspace-notice" hidden></div>
+
+  <script>
+    const configuredApi=document.querySelector('meta[name="midra-engineering-api-base"]')?.getAttribute("content")?.trim()||"";
+    const localApiDefault=["localhost","127.0.0.1"].includes(window.location.hostname)?"http://localhost:8000":window.location.origin;
+    const API=(configuredApi||localApiDefault).replace(/\/$/,"");
+    const local = ["localhost","127.0.0.1"].includes(window.location.hostname);
+    const projectList = document.querySelector("#project-list");
+    const notice = document.querySelector("#workspace-notice");
+    const filter = document.querySelector("#state-filter");
+    const newProjectButton = document.querySelector("#new-project-button");
+    const newProjectDialog = document.querySelector("#new-project-dialog");
+    const newProjectForm = document.querySelector("#new-project-form");
+    const newProjectMessage = document.querySelector("#new-project-message");
+    const createProjectButton = document.querySelector("#create-project");
+
+    function openNewProject() {
+      newProjectMessage.textContent="";
+      newProjectDialog.showModal();
+      requestAnimationFrame(()=>document.querySelector("#new-job-number")?.focus());
+    }
+
+    function closeNewProject() {
+      if(newProjectDialog.open) newProjectDialog.close();
+    }
+
+    newProjectButton.addEventListener("click",openNewProject);
+    document.querySelector("#close-project-dialog").addEventListener("click",closeNewProject);
+    document.querySelector("#cancel-project").addEventListener("click",closeNewProject);
+    newProjectDialog.addEventListener("click",(event)=>{
+      if(event.target===newProjectDialog) closeNewProject();
+    });
+
+    newProjectForm.addEventListener("submit",async(event)=>{
+      event.preventDefault();
+      newProjectMessage.textContent="Creating Engineering Job…";
+      createProjectButton.disabled=true;
+      try{
+        const value=(id)=>document.querySelector(id).value.trim();
+        const payload={
+          job_number:value("#new-job-number"),
+          project_name:value("#new-project-name"),
+          project_type:value("#new-project-type"),
+          source:value("#new-project-source"),
+          property_address:value("#new-property-address") || null,
+          client_id:value("#new-client-id") || null
+        };
+        const response=await fetch(`${API}/engineering/jobs`,{
+          method:"POST",
+          credentials:"include",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
+        });
+        const body=await response.json().catch(()=>({}));
+        if(response.status===401){window.location.replace("/engineering/login");return;}
+        if(!response.ok) throw new Error(body.detail || `Unable to create project (${response.status}).`);
+        window.location.assign(`/engineering/project?job=${encodeURIComponent(body.job_number)}`);
+      }catch(error){
+        newProjectMessage.textContent=error.message || "Unable to create Engineering Job.";
+        createProjectButton.disabled=false;
+      }
+    });
+
+
+    function text(value, fallback="—") {
+      return value === null || value === undefined || value === "" ? fallback : String(value);
+    }
+
+    function escapeHtml(value) {
+      const div=document.createElement("div");
+      div.textContent=text(value,"");
+      return div.innerHTML;
+    }
+
+    function renderCard(card) {
+      const action=card.next_action || {};
+      const href=`/engineering/project?job=${encodeURIComponent(card.job_number)}`;
+      return `<a class="project-row" href="${href}">
+        <div class="project-identity">
+          <span class="job-number">${escapeHtml(card.job_number)}</span>
+          <strong>${escapeHtml(card.project_name)}</strong>
+          <small>${escapeHtml(card.project_type)} · ${escapeHtml(card.project_state)}</small>
+        </div>
+        <div class="attention attention-${escapeHtml((card.attention||"info").toLowerCase())}">${escapeHtml(card.attention)}</div>
+        <div class="next-action">
+          <span>${escapeHtml(action.type?.replaceAll("_"," ") || "NO IMMEDIATE ACTION")}</span>
+          <strong>${escapeHtml(action.message || "No immediate action required.")}</strong>
+        </div>
+        <div class="row-arrow" aria-hidden="true">→</div>
+      </a>`;
+    }
+
+    async function load() {
+      if (!local) {
+        projectList.innerHTML=`<div class="workspace-empty"><strong>Internal workplace is not enabled on the public site.</strong><span>Authentication will be added before production access is enabled.</span></div>`;
+        document.querySelector("#metric-system").textContent="Protected";
+        document.querySelector("#api-status").textContent="Public access disabled";
+        return;
+      }
+      const state=filter.value;
+      const url=`${API}/engineering/command-center${state ? `?state=${encodeURIComponent(state)}` : ""}`;
+      try {
+        const response=await fetch(url,{credentials:"include"});
+        if(response.status===401){window.location.replace("/engineering/login");return;}
+        if(!response.ok) throw new Error(`API ${response.status}`);
+        const data=await response.json();
+        document.querySelector("#metric-projects").textContent=data.project_count;
+        document.querySelector("#metric-attention").textContent=data.needs_attention;
+        document.querySelector("#metric-waiting").textContent=(data.cards||[]).filter(c=>c.project_state==="WAITING" || c.next_action?.type==="WAITING").length;
+        document.querySelector("#metric-system").textContent="Online";
+        document.querySelector("#api-status").textContent="API connected";
+        projectList.innerHTML=(data.cards||[]).length
+          ? data.cards.map(renderCard).join("")
+          : `<div class="workspace-empty"><strong>No Engineering Jobs in this view.</strong><span>The workspace is ready for persistent projectdata.</span></div>`;
+      } catch(error) {
+        document.querySelector("#metric-system").textContent="Offline";
+        document.querySelector("#api-status").textContent="API unavailable";
+        projectList.innerHTML=`<div class="workspace-empty"><strong>Engineering API is not running.</strong><span>Start the MIDRA API, then refresh this page.</span></div>`;
+        notice.hidden=false;
+        notice.textContent="The workplace shell loaded correctly, but it could not reach the configured Engineering API endpoint.";
+      }
+    }
+    filter.addEventListener("change",load);
+    load();
+  </script>
+</EngineeringLayout>
