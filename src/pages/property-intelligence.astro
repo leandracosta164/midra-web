@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from "../layouts/Layout.astro";
 import PropertyMap from "../components/property-intelligence/PropertyMap.astro";
 
@@ -681,8 +681,9 @@ const propertyMapMount =
   const addressSuggestions =
     document.querySelector("#address-suggestions");
 
-  const API_BASE =
-    "http://127.0.0.1:8000";
+  const API_BASE = (
+    import.meta.env.PUBLIC_MIDRA_API_BASE_URL || "http://127.0.0.1:8000"
+  ).replace(/\/$/, "");
 
   let suggestionTimer = null;
   let suggestionAbortController = null;
